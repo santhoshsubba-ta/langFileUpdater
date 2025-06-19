@@ -51,10 +51,9 @@ const DataProcessor: React.FC<DataProcessorProps> = ({
         excelData.forEach((row) => {
           const path = row[keyColumn];
           const newValue = row[valueColumn];
-
+          // && path.trim().startsWith('lang') 
           if (
             typeof path === 'string' &&
-            path.trim().startsWith('lang') &&
             newValue !== undefined
           ) {
             const oldValue = get(updated, path);

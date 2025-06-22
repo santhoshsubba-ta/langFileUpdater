@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import DataProcessor from './DataProcessor';
 import {
   Drawer,
   DrawerBody,
@@ -15,15 +14,23 @@ import {
   VStack,
   useToast,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-const FileUploader: React.FC = ({ isOpen, onOpen, onClose, btnRef }: any) => {
+interface FileUploaderProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  btnRef: React.RefObject<HTMLButtonElement>;
+}
+
+const FileUploader: React.FC<FileUploaderProps> = ({ isOpen, onClose, btnRef }) => {
   const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const [sheetName, setSheetName] = useState('');
   const [keyColumn, setKeyColumn] = useState('');
   const [valueColumn, setValueColumn] = useState('');
-  const [showProcessor, setShowProcessor] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     if (!jsonFile || !excelFile || !sheetName || !keyColumn || !valueColumn) {
@@ -36,8 +43,19 @@ const FileUploader: React.FC = ({ isOpen, onOpen, onClose, btnRef }: any) => {
       });
       return;
     }
-    setShowProcessor(true);
-    onClose(); // Optionally close the drawer on submit
+
+    // Navigate to the processor page with state
+    navigate('/process', {
+      state: {
+        jsonFile,
+        excelFile,
+        sheetName,
+        keyColumn,
+        valueColumn,
+      },
+    });
+
+    onClose(); // Close the drawer
   };
 
   return (
@@ -140,19 +158,6 @@ const FileUploader: React.FC = ({ isOpen, onOpen, onClose, btnRef }: any) => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-
-      {/* Render the processor output */}
-      <div className="w-3/4 mx-auto">
-        {showProcessor && jsonFile && excelFile && (
-          <DataProcessor
-            jsonFile={jsonFile}
-            excelFile={excelFile}
-            sheetName={sheetName}
-            keyColumn={keyColumn}
-            valueColumn={valueColumn}
-          />
-        )}
-      </div>
     </>
   );
 };

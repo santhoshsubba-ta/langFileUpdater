@@ -1,8 +1,8 @@
 import React from 'react';
-import FileUploader from '../../components/FileUploader';
 import {Heading, Text, useDisclosure} from '@chakra-ui/react';
 import { Button, ButtonGroup } from '@chakra-ui/react'
-import {HowItWorks} from '../../components/HowItWorks';
+import {HowItWorks} from '../components/HowItWorks';
+import FileUploader from '../components/FileUploader';
 export const Home: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen:isOpenD, onOpen:onOpenD, onClose:onCloseD } = useDisclosure()

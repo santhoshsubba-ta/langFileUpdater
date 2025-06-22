@@ -32,3 +32,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: santhoshta/lang-file-updater:latest
+          readme-filepath: README.dockerhub.md
